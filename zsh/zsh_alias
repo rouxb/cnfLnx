@@ -1,0 +1,115 @@
+### ALIAS ---------------------------------###
+###
+# User enable color support for dir/diff & pacman cmd
+#color pacman outut
+alias pacman='pacman --color always'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias diff='colordiff'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+### Alias for vim
+# use vimx for X11 clipboard support
+alias vim='vimx'
+alias vi='vimx'
+alias v='vimx'
+
+### Alias for emacs
+alias ec='emacs -nw'
+alias ecw='emacs'
+
+### Alias shortKey
+#alias vivadoSetup='source ~/.config/xilinx/setupTools.sh'
+#alias gurobiSetup='source ~/.config/gurobi/gurobiSetup.sh'
+
+### Alias with arguments (=>functions) and there shortcut
+open() {nohup gvfs-open $@ &>/dev/null}
+alias o='open'
+
+backLaunch() {nohup $@ &>/dev/null}
+alias bl='backLaunch'
+
+### function to enable dynamic zoom and dezoom in urxvt
+zoom() {
+    printf '\33]50;%s\007' "xft:DejaVuSansMonoForPowerLine:size=$1"
+}
+
+URXVT_SIZE=10
+URXVT_PROGRESS_SIZE=2
+zp() {
+    URXVT_SIZE=$(echo "$URXVT_SIZE+$URXVT_PROGRESS_SIZE" | bc )
+    zoom $URXVT_SIZE
+}
+
+zm() {
+    URXVT_SIZE=$(echo "$URXVT_SIZE-$URXVT_PROGRESS_SIZE" | bc )
+    zoom $URXVT_SIZE
+}
+
+### function for terminal stopwatch
+function stopwatch(){
+  date1=`date +%s`; 
+   while true; do 
+    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"; 
+    sleep 0.1
+   done
+}
+
+### Keyboard Layout toggle
+init_dvp(){
+    setxkbmap -layout us -variant dvp
+    xmodmap -e "keycode 94 = eacute egrave"
+}
+alias setDvorak='init_dvp'
+
+alias setAzerty='setxkbmap -layout fr'
+
+### Disable touchpad
+#alias touchpadOff='synclient TouchpadOff=1'
+#alias touchpadOn='synclient TouchpadOff=0'
+
+###
+# Folder shortcuts
+##############################
+alias gtIcWspace='cd /nfs/work-crypt/ic/usr/broux'
+alias gtSysWspace='cd /nfs/work-crypt/board/broux/workspace'
+alias gtr='cd /work-crypt/broux/rifyle_dig'
+alias gtCrpt='cd /work-crypt/broux'
+alias gtWork='cd /work1/broux'
+
+###
+# Alias for fast x2gosharing setup
+##############################
+start_x2goSharing(){
+    xrandr --output DP-1 --mode 1024x768 --output DP-2 --off
+    x2godesktopsharing --activate-desktop-sharing &
+}
+
+stop_x2goSharing(){
+    pkill x2godesktop
+    xrandr --output DP-2 --auto --right-of DP-1 --output DP-1 --auto
+}
+
+###
+# Alias for fast machine jumping
+##############################
+jt(){
+    if ! [[ 1 -eq $# ]]; then
+        echo "You should provide only one argument for target machine name"
+    else
+        machine=$1
+        myname=`whoami`
+        trgtPath=`pwd`
+        echo "Jump to $machine in bash mode as $myname:$trgtPath"
+        ssh -CYt $myname@$machine "cd $trgtPath; bash;"
+    fi
+}
+
+###
+# SetupTools
+##############################
+alias setupNcSim='source ~/.CADTools/ncSim_setup.sh'
+export XILINXD_LICENSE_FILE=~/.CADTools
+
+

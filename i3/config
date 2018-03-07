@@ -1,0 +1,309 @@
+### Configuration file for i3 window manager
+# target keyboard layout dvorak programmer
+###
+
+# Modificator key :
+#   Mod4  super
+#   Mod1 alt
+set $mod Mod1
+set $moda Mod4
+
+### Windows title and border
+# title font
+font pango:DejaVu Sans Mono 10
+# title bar and border : normal 1pixel none
+new_window 1pixel 
+hide_edge_borders both #<none|vertical|horizontal|both>
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+###Applications
+    #bindsym $moda+Return exec i3-sensible-terminal
+    bindsym $moda+Return exec urxvt256c-ml
+    bindsym $moda+e exec emacs
+    bindsym $moda+v exec zathura
+    bindsym $moda+w exec firefox
+    bindsym $moda+f exec nautilus --no-desktop	
+    bindsym $moda+i exec inkscape
+    bindsym $moda+s exec dia --integrated
+    bindsym $moda+g exec gimp
+    bindsym $moda+m exec thunderbird
+    bindsym $moda+l exec mattermost-desktop
+    # bindsym $moda+p exec rhythmbox
+###other keys
+    bindsym Print  exec gnome-screenshot --interactive
+    #bindsym Print  exec gnome-screenshot -a
+    bindsym XF86Explorer exec firefox
+    bindsym XF86Mail exec thunderbird
+    bindsym XF86HomePage exec nautilus --no-desktop	
+#lockscreen
+    #bindsym XF86ScreenSaver exec sh ~/.i3/lock.sh
+# kill focused window
+	bindsym $mod+Shift+semicolon kill
+### start dmenu
+bindsym $moda+d exec dmenu_run -i -p 'broux' -fn 'pango:DejaVu Sans Mono:bold:pixelsize=25' -nb '#fdf6e3' -nf '#586c75' -sf '#fdf6e3' -sb '#b58900' 
+# New i3-dmenu-desktop which only displays applications
+    #bindsym $moda+d exec --no-startup-id i3-dmenu-desktop
+
+### focus windows
+#focus_follows_mouse no
+#mouse_warping output 
+#basic keyinding
+    bindsym $mod+h focus left
+    bindsym $mod+j focus down
+    bindsym $mod+k focus up
+    bindsym $mod+l focus right
+#alternatively : cursor keys
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+### move focused window
+#basic keybinding
+    bindsym $mod+Shift+h move left
+    bindsym $mod+Shift+j move down
+    bindsym $mod+Shift+k move up
+    bindsym $mod+Shift+l move right
+#alternatively : cursor keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+
+###split container Inverted
+# in horizontal orientation
+    bindsym $mod+s split v
+#in vertical orientation
+    bindsym $mod+v split h
+
+###Fullscreen the focused container
+    bindsym $mod+f fullscreen
+    popup_during_fullscreen leave_fullscreen #smart|ignore|leave_fullscreen
+
+###Container layout (stacked(disable), tabbed, toggle split)
+    bindsym $mod+comma layout tabbed
+    bindsym $mod+semicolon layout toggle split
+
+### tiling / floating
+#floating toggle
+    bindsym $mod+Shift+space floating toggle
+#focus next tiling / floating windows
+    bindsym $mod+space focus mode_toggle
+
+###focus container
+# focus the parent container
+    bindsym $mod+a focus parent
+# focus the child container
+    bindsym $mod+o focus child
+  
+### Workspace
+# Name the workspaces
+    #set $tag0 "O"
+    #bindsym $mod+oe workspace $tag0
+    #bindsym $mod+Shift OE move container to workspace $tag0
+    
+# Workspace Name
+    set $tag~ "0:~"
+    set $tag% "1:%"
+    set $tag7 "2:7"
+    set $tag5 "3:5"
+    set $tag3 "4:3"
+    set $tag1 "5:1"
+    set $tag9 "6:9"
+    set $tag0 "7:0"
+    set $tag2 "8:2"
+    set $tag4 "9:4"
+    set $tag6 "10:6"
+    set $tag8 "11:www"
+    set $tagExtra "12:@"
+# switch to workspace
+  # set $tag$ "@"
+  # bindsym $mod+dollar workspace $tag$
+    bindsym $mod+dollar workspace $tag~
+    bindsym $mod+ampersand workspace $tag%
+    bindsym $mod+7 workspace $tag7
+    bindsym $mod+5 workspace $tag5
+    bindsym $mod+3 workspace $tag3
+    bindsym $mod+1 workspace $tag1
+    bindsym $mod+9 workspace $tag9
+    bindsym $mod+0 workspace $tag0
+    bindsym $mod+2 workspace $tag2
+    bindsym $mod+4 workspace $tag4
+    bindsym $mod+6 workspace $tag6
+    bindsym $mod+8 workspace $tag8
+    bindsym $mod+numbersign workspace $tagExtra
+
+# move focused container to workspace
+    bindsym $mod+Shift+dollar move container to workspace $tag~
+    bindsym $mod+Shift+ampersand move container to workspace $tag%
+    bindsym $mod+Shift+7 move container to workspace $tag7
+    bindsym $mod+Shift+5 move container to workspace $tag5
+    bindsym $mod+Shift+3 move container to workspace $tag3
+    bindsym $mod+Shift+1 move container to workspace $tag1
+    bindsym $mod+Shift+9 move container to workspace $tag9
+    bindsym $mod+Shift+0 move container to workspace $tag0
+    bindsym $mod+Shift+2 move container to workspace $tag2
+    bindsym $mod+Shift+4 move container to workspace $tag4
+    bindsym $mod+Shift+6 move container to workspace $tag6
+    bindsym $mod+Shift+8 move container to workspace $tag8
+    bindsym $mod+Shift+numbersign move container to workspace $tagExtra
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter, Escape or mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+	    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+### Screen brightness 
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 
+bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 5
+
+### Keyboard LED  brightness
+#bindsym XF86KbdBrightnessDown exec --no-startup-id ~/.i3/scripts/brightKSet down
+#bindsym XF86KbdBrightnessUp   exec --no-startup-id ~/.i3/scripts/brightKSet up
+
+### Sound gestion
+# increase volume
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+ unmute
+# decrease volume
+bindsym XF86AudioLowerVolume exec amixer -q set Master 5%- unmute
+# mute volume
+bindsym XF86AudioMute exec amixer -q set Master toggle
+# pause / play / next / previous
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+### i3Session
+set $mode_system System (l) lock, (s) suspend, (h) hibernate, (Shift+r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id ~/.config/i3/scripts/lock.sh, mode "default"
+    bindsym s exec --no-startup-id ~/.config/i3/scripts/suspend.sh, mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    bindsym Shift+r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+	bindsym mod+Escape mode "default"
+}
+bindsym $mod+Escape mode "$mode_system"
+
+### Default layout for application
+# for_window [class="Rhythmbox"] move container to workspace 0
+for_window [class="PlayOnLinux"] floating enable
+for_window [class="Blueman"] floating enable, floating_maximum_size 500*500
+for_window [window_role="pop-up"] floating enable,move absolute center
+for_window [title="File Operation Progress" class="Nautilus"] floating enable
+for_window [title="*Parameters*"] floating enable
+for_window [class="feh"] floating enable
+for_window [window_role="conversation"] floating enable, move absolute center
+for_window [title="Information"] floating enable
+#Cadence tools
+for_window [title="ncsim"] floating enable
+for_window [title="SimVision Exit"] floating enable
+
+### Default layout for workspaces
+set $native DP-1
+set $dock DP-2
+#Native Screen
+	workspace $tag~ output $native
+	workspace $tag% output $native
+	workspace $tag7 output $native
+	workspace $tag5 output $native
+	workspace $tag3 output $native
+	workspace $tag1 output $native
+	workspace $tag9 output $native
+#Dock Screen
+	workspace $tag0 output $dock
+	workspace $tag2 output $dock
+	workspace $tag4 output $dock
+	workspace $tag6 output $dock
+	workspace $tag8 output $dock
+	workspace $tagExtra output $dock
+
+### Start i3bar to display a workspace bar
+# Set i3blocks executable path
+set $i3blocks ~/.cnfLnx/i3/i3blocks/bin/i3blocks
+# Internal display
+bar {
+    output $native
+    tray_output $native
+    strip_workspace_numbers yes
+    font pango:DejaVu Sans Mono 10
+    colors {
+        # Whole color settings
+        background #000000
+        statusline #ffffff
+        separator  #999999
+
+        # Type             border  background font
+        focused_workspace  #b58900 #b58900 #ffffff
+        active_workspace   #333333 #5f676a #ffffff
+        inactive_workspace #333333 #222222 #888888
+        urgent_workspace   #aa0000 #990000 #ffffff
+    }
+    # i3bar position
+    position bottom
+    # Using i3Blocks 
+    #status_command $i3blocks -c ~/.i3/i3blocks/config
+    status_command i3status
+}
+#Others
+bar {
+    output $dock
+    tray_output none
+    strip_workspace_numbers yes
+    font pango:DejaVu Sans Mono 8
+    colors {
+        # Whole color settings
+        background #000000
+        statusline #ffffff
+        separator  #999999
+
+        # Type             border  background font
+        focused_workspace  #b58900 #b58900 #ffffff
+        active_workspace   #333333 #5f676a #ffffff
+        inactive_workspace #333333 #222222 #888888
+        urgent_workspace   #aa0000 #990000 #ffffff
+    }
+    # i3bar position
+    position bottom
+    # Using i3Blocks 
+    #status_command $i3blocks -c ~/.i3/i3blocks/config
+    status_command i3status
+}
+
+### Startup programs
+#Screen
+#exec_always --no-startup-id ~/.i3/dock/dockSetup.sh
+#Gnome keyring daemon
+#exec --no-startup-id gnome-keyring-daemon
+
+#Others applet and Apps
+exec --no-startup-id nm-applet
+#exec_always --no-startup-id nitrogen --restore
+#exec_always --no-startup-id compton --config ~/.cnfLnx/compton/compton.conf -b

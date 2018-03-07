@@ -1,0 +1,355 @@
+#Configuration file for i3 window manager
+#
+
+#
+#defaut configuration : delete
+# this file and re-run i3-config-wizard(1).
+#
+
+# Modificator key :
+#   Mod4  super
+#   Mod1 alt
+set $mod Mod1
+set $moda Mod4
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:DejaVu Sans Mono 10
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. However, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn’t scale on retina/hidpi displays.
+
+#
+# Windows title bar and border : normal 1pixel none
+#new_window none
+new_window 1pixel
+hide_edge_borders both #<none|vertical|horizontal|both>
+#new_window normal
+#hide_edge_borders none #<none|vertical|horizontal|both>
+
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+###Applications
+    bindsym $moda+Return exec i3-sensible-terminal
+    bindsym $moda+e exec emc
+    #bindsym $moda+e exec eclipse 
+    bindsym $moda+v exec zathura
+    bindsym $moda+w exec chromium
+    bindsym $moda+f exec nautilus --no-desktop	
+    #bindsym $moda+f exec pcmanfm
+    bindsym $moda+i exec inkscape
+    bindsym $moda+s exec dia --integrated
+    bindsym $moda+g exec gimp
+    bindsym $moda+m exec evolution
+    # bindsym $moda+j exec pidgin
+    # bindsym $moda+p exec rhythmbox
+###other keys
+    bindsym Print  exec gnome-screenshot --interactive
+    #bindsym Print  exec gnome-screenshot -a
+    bindsym XF86Explorer exec google-chrome-stable
+    bindsym XF86Mail exec evolution
+    bindsym XF86HomePage exec nautilus --no-desktop	
+
+###lockscreen
+    #bindsym XF86ScreenSaver exec sh ~/.i3/lock.sh
+# kill focused window
+	bindsym $mod+Shift+a kill
+
+### start dmenu
+#basique verions
+    #bindsym $moda+d exec dmenu_run
+bindsym $moda+d exec dmenu_run -i -p 'brouxHP' -fn 'pango:DejaVu Sans Mono:bold:pixelsize=25' -nb '#fdf6e3' -nf '#586c75' -sf '#fdf6e3' -sb '#b58900' 
+
+# New i3-dmenu-desktop which only displays applications
+    #bindsym $moda+d exec --no-startup-id i3-dmenu-desktop
+
+### focus windows
+#focus_follows_mouse no
+#mouse_warping output 
+#basic keyinding
+    bindsym $mod+h focus left
+    bindsym $mod+j focus down
+    bindsym $mod+k focus up
+    bindsym $mod+l focus right
+#alternatively : cursor keys
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+### move focused window
+#basic keybinding
+    bindsym $mod+Shift+h move left
+    bindsym $mod+Shift+j move down
+    bindsym $mod+Shift+k move up
+    bindsym $mod+Shift+l move right
+#alternatively : cursor keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+
+###split container Inverted
+# in horizontal orientation
+    bindsym $mod+c split v
+#in vertical orientation
+    bindsym $mod+v split h
+
+###Fullscreen the focused container
+    bindsym $mod+f fullscreen
+    popup_during_fullscreen leave_fullscreen #smart|ignore|leave_fullscreen
+
+###Container layout (stacked, tabbed, toggle split)
+    bindsym $mod+e layout stacking
+    bindsym $mod+z layout tabbed
+    bindsym $mod+a layout toggle split
+
+### tiling / floating
+#floating toggle
+    bindsym $mod+Shift+space floating toggle
+#focus next tiling / floating windows
+    bindsym $mod+space focus mode_toggle
+
+###focus container
+# focus the parent container
+    #basic
+    bindsym $mod+q focus parent
+    #alternatively
+    bindsym $moda+Up focus parent
+# focus the child container
+    #basic
+    bindsym $mod+s focus child
+    #alternatively
+    bindsym $moda+Down focus child
+  
+### Workspace
+# Name the workspaces
+    #set $tag0 "O"
+    #bindsym $mod+oe workspace $tag0
+    #bindsym $mod+Shift OE move container to workspace $tag0
+    
+# switch to workspace
+    #bindsym $mod+tilde workspace 0
+    bindsym $mod+oe workspace 0
+    bindsym $mod+1 workspace 1
+    bindsym $mod+2 workspace 2
+    bindsym $mod+3 workspace 3
+    bindsym $mod+4 workspace 4
+    bindsym $mod+5 workspace 5
+    bindsym $mod+6 workspace 6
+    bindsym $mod+7 workspace 7
+    bindsym $mod+8 workspace 8
+    bindsym $mod+9 workspace 9
+    bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+    bindsym $mod+Shift+oe move container to workspace 0
+    bindsym $mod+Shift+1 move container to workspace 1
+    bindsym $mod+Shift+2 move container to workspace 2
+    bindsym $mod+Shift+3 move container to workspace 3
+    bindsym $mod+Shift+4 move container to workspace 4
+    bindsym $mod+Shift+5 move container to workspace 5
+    bindsym $mod+Shift+6 move container to workspace 6
+    bindsym $mod+Shift+7 move container to workspace 7
+    bindsym $mod+Shift+8 move container to workspace 8
+    bindsym $mod+Shift+9 move container to workspace 9
+    bindsym $mod+Shift+0 move container to workspace 10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter, Escape or mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+	    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+
+### Screen brightness 
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 
+bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 5
+
+### Keyboard LED  brightness
+#bindsym XF86KbdBrightnessDown exec --no-startup-id ~/.i3/scripts/brightKSet down
+#bindsym XF86KbdBrightnessUp   exec --no-startup-id ~/.i3/scripts/brightKSet up
+
+### Sound gestion
+#without pacvol script
+#bindsym XF86AudioMute exec --no-startup-id /usr/bin/pactl set-sink-mute @DEFAULT_SINK@ -- 'toggle'
+#bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume @DEFAULT_SINK@ -- '-5%'
+#bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume @DEFAULT_SINK@ -- '+5%'
+#With pacvol Script
+#bindsym XF86AudioMute exec ~/.i3/i3bar/pacvol.sh toggle
+#bindsym XF86AudioLowerVolume exec ~/.i3/i3bar/pacvol.sh down
+#bindsym XF86AudioRaiseVolume exec ~/.i3/i3bar/pacvol.sh up
+# Multimedia Keys
+# increase volume
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+ unmute
+# decrease volume
+bindsym XF86AudioLowerVolume exec amixer -q set Master 5%- unmute
+# mute volume
+bindsym XF86AudioMute exec amixer -q set Master toggle
+# pause / play / next / previous
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+### i3Session
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+#set $mode_system exec"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+mode "$mode_system" {
+	#exec"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.'"
+    bindsym l exec --no-startup-id ~/.i3/scripts/lock.sh, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+	bindsym mod+Escape mode "default"
+}
+bindsym $mod+Escape mode "$mode_system"
+
+### Exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+### Default layout for application
+# for_window [class="Thunderbird"] move container to workspace 0
+# for_window [class="Pidgin" window_role="buddy_list"] move container to workspace 0
+# for_window [class="Rhythmbox"] move container to workspace 0
+for_window [class="PlayOnLinux"] floating enable
+# for_window [class="Dia"] floating enable
+# for_window [class="Arandr"] floating enable
+for_window [class="Blueman"] floating enable, floating_maximum_size 500*500
+for_window [window_role="pop-up"] floating enable,move absolute center
+for_window [title="File Operation Progress" class="Nautilus"] floating enable
+# for_window [title="Press This - Mozilla Firefox" class="Firefox"] floating enable
+for_window [title="*Parameters*"] floating enable
+for_window [class="feh"] floating enable
+for_window [title="Figure*"] floating enable
+#for_window [class="^PidGin$" window_role="^conversation$"] floating enable
+for_window [window_role="conversation"] floating enable, move absolute center
+
+### Default layout for workspaces
+set $native eDP-1
+set $dock DP-1-1
+#Native Screen
+	workspace 0 output $native
+	workspace 1 output $native
+#Dock Screen
+	workspace 2 output $dock
+	workspace 3 output $dock
+	workspace 4 output $dock
+	workspace 5 output $dock
+	workspace 6 output $dock
+	workspace 7 output $dock
+	workspace 8 output $dock
+	workspace 9 output $dock
+	workspace 10 output $dock
+
+# Start i3bar to display a workspace bar
+# Internal display
+bar {
+    output $native
+    tray_output $native
+    font pango:DejaVu Sans Mono 10
+    colors {
+        # Whole color settings
+        background #000000
+        statusline #ffffff
+        separator  #999999
+
+        # Type             border  background font
+        #focused_workspace  #008fff #007fff #ffffff
+        focused_workspace  #b58900 #b58900 #ffffff
+        active_workspace   #333333 #5f676a #ffffff
+        inactive_workspace #333333 #222222 #888888
+        urgent_workspace   #aa0000 #990000 #ffffff
+    }
+    # i3bar position
+    position bottom
+    # Using i3Blocks 
+    status_command i3blocks -c ~/.i3/i3blocks/config
+}
+#Others
+bar {
+    output $dock
+    tray_output none
+    font pango:DejaVu Sans Mono 8
+    colors {
+        # Whole color settings
+        background #000000
+        statusline #ffffff
+        separator  #999999
+
+        # Type             border  background font
+        #focused_workspace  #008fff #007fff #ffffff
+        focused_workspace  #b58900 #b58900 #ffffff
+        active_workspace   #333333 #5f676a #ffffff
+        inactive_workspace #333333 #222222 #888888
+        urgent_workspace   #aa0000 #990000 #ffffff
+    }
+    # i3bar position
+    position bottom
+    # Using i3Blocks 
+    status_command i3blocks -c ~/.i3/i3blocks/config
+}
+
+###startup programs
+#Screen
+exec_always --no-startup-id ~/.i3/dock/dockSetup.sh
+#exec_always --no-startup-id gnome-sound-applet
+#exec_always --no-startup-id indicator-cpufreq 
+
+#Gnome keyring daemon
+exec --no-startup-id gnome-keyring-daemon
+
+#Others applet and Apps
+exec --no-startup-id nm-applet
+exec_always --no-startup-id nitrogen --restore
+exec_always --no-startup-id compton --config ~/.config/compton.conf -b
+
+#launch usefull app Only on startup
+# and start basic tiling tree on workspace0
+#exec --no-startup-id "i3-msg 'workspace 0; append_layout ~/.i3/tree/workspaceHome.json'"
+#exec --no-startup-id thunderbird
+#exec --no-startup-id empathy
+
+#exec --no-startup-id /usr/lib/x86_64-linux-gnu/notify-osd #Only on startup
+#exec_always --no-startup-id blueman-applet
+#exec_always --no-startup-id conky -c ~/.conky/rings
+#exec_always --no-startup-id conky -c ~/.conky/mem

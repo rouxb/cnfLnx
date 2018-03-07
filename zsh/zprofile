@@ -1,0 +1,6 @@
+###
+# AutoStart X @login
+#[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+
+# AutoStart Sway @login
+# XKB_DEFAULT_LAYOUT=fr XKB_DEFAULT_VARIANT="" XKB_DEFAULT_MODEL=pc105 sway

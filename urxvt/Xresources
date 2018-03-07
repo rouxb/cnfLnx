@@ -1,0 +1,116 @@
+!!!
+! Configuration file for xterm terminal
+! ---------------------------------------------------------
+XTerm*foreground     : black
+XTerm*background     : ForestGreen
+XTerm*cursorColor    : chartreuse
+!!!
+! Configuration file for urxvt terminal
+! ---------------------------------------------------------
+! General
+!urxvt*termName:  urxvt
+urxvt*loginShell:         true
+urxvt*scrollBar:         false
+urxvt*secondaryScroll:    true
+urxvt*saveLines:         65535
+urxvt*cursorBlink:       false
+urxvt*urgentOnBell:       true
+!urxvt*override-redirect:false
+!urxvt*borderLess:       false
+!urxvt*internalBorder:       0
+!urxvt*externalBorder:       0
+
+! Extensions
+urxvt*perl-lib:        /usr/lib/urxvt/perl/
+urxvt*perl-ext-common: default,matcher,searchable-scrollback
+urxvt*urlLauncher:     /usr/bin/firefox
+urxvt*matcher.button:  1
+!  - catch ugly URLs
+urxvt.cutchars:        '()'*<>[]{|}
+
+! Appearance
+!Enable true transparency
+urxvt.depth: 32
+urxvt.background: [95]#000000
+
+! - font
+urxvt*font:       xft:DejaVuSansMonoforPowerline:size=10
+
+!  - cursor
+urxvt*cursorColor: #DCDCCC
+! -Molokai colorscheme
+urxvt*background: #101010
+urxvt*foreground: #d0d0d0
+urxvt*color0: #101010
+urxvt*color1: #960050
+urxvt*color2: #66aa11
+urxvt*color3: #c47f2c
+urxvt*color4: #30309b
+urxvt*color5: #7e40a5
+urxvt*color6: #3579a8
+urxvt*color7: #9999aa
+urxvt*color8: #303030
+urxvt*color9: #ff0090
+urxvt*color10: #80ff00
+urxvt*color11: #ffba68
+urxvt*color12: #5f5fee
+urxvt*color13: #bb88dd
+urxvt*color14: #4eb4fa
+urxvt*color15: #d0d0d0
+
+
+
+!!!
+! Configuration file for urxvt256c-ml terminal
+! patch version of urxvt for powerline font support
+! ---------------------------------------------------------
+! General
+!urxvt256c-ml*termName:  urxvt256c-ml
+urxvt256c-ml*loginShell:         true
+urxvt256c-ml*scrollBar:         false
+urxvt256c-ml*secondaryScroll:    true
+urxvt256c-ml*saveLines:         65535
+urxvt256c-ml*cursorBlink:       false
+urxvt256c-ml*urgentOnBell:       true
+!urxvt256c-ml*override-redirect:false
+!urxvt256c-ml*borderLess:       false
+!urxvt256c-ml*internalBorder:       0
+!urxvt256c-ml*externalBorder:       0
+
+! Extensions
+urxvt256c-ml*perl-lib:        /usr/lib/urxvt256c-ml/perl/
+urxvt256c-ml*perl-ext-common: default,matcher,searchable-scrollback
+urxvt256c-ml*urlLauncher:     /usr/bin/firefox
+urxvt256c-ml*matcher.button:  1
+!  - catch ugly URLs
+urxvt256c-ml.cutchars:        '()'*<>[]{|}
+
+! Appearance
+!Enable true transparency
+urxvt256c-ml.depth: 32
+urxvt256c-ml.background: [95]#000000
+
+! - font
+urxvt256c-ml*font:       xft:DejaVuSansMonoforPowerline:size=10
+
+!  - cursor
+urxvt256c-ml*cursorColor: #DCDCCC
+! -Molokai colorscheme
+urxvt256c-ml*background: #101010
+urxvt256c-ml*foreground: #d0d0d0
+urxvt256c-ml*color0: #101010
+urxvt256c-ml*color1: #960050
+urxvt256c-ml*color2: #66aa11
+urxvt256c-ml*color3: #c47f2c
+urxvt256c-ml*color4: #30309b
+urxvt256c-ml*color5: #7e40a5
+urxvt256c-ml*color6: #3579a8
+urxvt256c-ml*color7: #9999aa
+urxvt256c-ml*color8: #303030
+urxvt256c-ml*color9: #ff0090
+urxvt256c-ml*color10: #80ff00
+urxvt256c-ml*color11: #ffba68
+urxvt256c-ml*color12: #5f5fee
+urxvt256c-ml*color13: #bb88dd
+urxvt256c-ml*color14: #4eb4fa
+urxvt256c-ml*color15: #d0d0d0
