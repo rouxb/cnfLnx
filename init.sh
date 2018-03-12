@@ -26,11 +26,16 @@ spacemacs_trgt_path=~/.spacemacs
 ln -i -s $SCRIPTPATH/$spacemacs_config $spacemacs_trgt_path
 
 ### I3 config
-i3_config=i3/config
-i3_trgt_path=~/.config/i3/config
+i3_config=i3
+i3_trgt_path=~/.config/i3
 ln -i -s $SCRIPTPATH/$i3_config $i3_trgt_path
 
 ### Tmux config
 tmux_config=tmux/tmux.conf
 tmux_trgt_path=~/.tmux.conf
 ln -i -s $SCRIPTPATH/$tmux_config $tmux_trgt_path
+
+### Xresources config
+urxvt_config=urxvt/Xresources
+urxvt_trgt_path=~/.Xresources
+ln -i -s $SCRIPTPATH/$urxvt_config $urxvt_trgt_path

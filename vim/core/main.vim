@@ -2,18 +2,18 @@
 
   let s:nvim_dir = get(g:cnf_nvim, 'nvim_dir',
       \ fnamemodify(resolve(expand('<sfile>')), ':p:h:h'))
-  let s:cache_dir = s:nvim_dir . g:nvim_path_sep . 'cache'
+  let s:cache_dir = s:nvim_dir . g:nvim_path_separator . 'cache'
 
 "}}}
 
 " functions {{{
 
   function! NvimGetDir(suffix) "{{{
-    return resolve(expand(s:nvim_dir . g:nvim_path_sep . a:suffix))
+    return resolve(expand(s:nvim_dir . g:nvim_path_separator . a:suffix))
   endfunction "}}}
 
   function! NvimGetCacheDir(suffix) "{{{
-    return resolve(expand(s:cache_dir . g:nvim_path_sep . a:suffix))
+    return resolve(expand(s:cache_dir . g:nvim_path_separator . a:suffix))
   endfunction "}}}
 
   function! NvimOnDoneUpdate() "{{{
@@ -53,7 +53,7 @@
   endfunction "}}}
 
   function! s:SourceLayers(path) "{{{
-    for f in split(glob(a:path . g:nvim_path_sep . '*.nvim\|*.vim'), '\n')
+    for f in split(glob(a:path . g:nvim_path_separator . '*.nvim\|*.vim'), '\n')
       let l:layer_name = fnamemodify(f, ':t:r')
       if count(g:cnf_nvim.layers, l:layer_name)
         execute 'source ' . f
@@ -62,7 +62,7 @@
   endfunction "}}}
 
   function! s:AddTags(path) "{{{
-    for f in split(glob(a:path . g:nvim_path_sep . '*.tags'), '\n')
+    for f in split(glob(a:path . g:nvim_path_separator . '*.tags'), '\n')
       execute 'set tags+=' . f
     endfor
   endfunction "}}}
@@ -144,19 +144,18 @@
 
   set nocompatible
   set all&  " reset everything to their defaults
-  let s:github_path = NvimGetDir('bundle') . g:nvim_path_sep .
-      \ 'repos' . g:nvim_path_sep . 'github.com'
-  let s:dein_path = s:github_path . g:nvim_path_sep .
-      \ 'Shougo' . g:nvim_path_sep . 'dein.vim'
-  let s:ale_path = s:github_path . g:nvim_path_sep .
-      \ 'w0rp' . g:nvim_path_sep . 'ale'
+  let s:base_path = NvimGetDir('base')
+  let s:dein_path = s:base_path . g:nvim_path_separator
+      \ . 'dein.vim'
+  let s:ale_path = s:base_path . g:nvim_path_separator
+      \ . 'ale'
   execute 'set runtimepath+=' . s:dein_path
   if g:cnf_nvim.syntaxcheck_plugin ==# 'ale'
     execute 'set runtimepath+=' . s:ale_path
   endif
 
   call dein#begin(NvimGetDir('bundle'))
-  call dein#add('Shougo/dein.vim')
+  call dein#add(NvimGetDir('base') . g:nvim_path_separator . 'dein.vim')
 
 "}}}
 
@@ -168,7 +167,7 @@
   " mouse
   "set mouse&
   set mouse=a  " enable mouse
-  set ttymouse=xterm2
+  "set ttymouse=xterm2
   set mousehide  " hide when characters are typed
   set history=1000  " number of command lines to remember
   set ttyfast  " assume fast terminal connection
@@ -521,21 +520,20 @@
 
 " color schemes {{{
 
-  call dein#add('nanotech/jellybeans.vim')
-  if g:cnf_nvim.colorscheme ==# 'solarized' "{{{
+  if g:cnf_nvim.colorscheme ==# 'jellybeans'
+    call dein#add('nanotech/jellybeans.vim')
+  elseif g:cnf_nvim.colorscheme ==# 'solarized'
     call dein#add('taohex/vim-colors-solarized')
     let g:solarized_termcolors = 256
     let g:solarized_termtrans = 1
+  elseif g:cnf_nvim.colorscheme ==# 'space-vim-dark'
+    call dein#add('liuchengxu/space-vim-dark')
+    "   Range:   233 (darkest) ~ 238 (lightest)
+    "   Default: 235
+  let g:space_vim_dark_background = 234
   elseif g:cnf_nvim.colorscheme ==# 'molokai'
     call dein#add('justinmk/molokai')
-  endif "}}}
-  "call dein#add('chriskempson/vim-tomorrow-theme')
-  "call dein#add('chriskempson/base16-vim')
-  "call dein#add('w0ng/vim-hybrid')
-  "call dein#add('sjl/badwolf')
-  "call dein#add('zeis/vim-kolor') "{{{
-  "  let g:kolor_underlined=1
-  ""}}}
+  endif
 
 "}}}
 
@@ -644,16 +642,29 @@
 
 "}}}
 
+" Main shortcut {{{
+    " functions {{{
+    " }}}
+
+    " mappings {{{
+      " smash escape
+      inoremap jk <Esc>
+      inoremap kj <Esc>
+    " }}}
+
+  " }}}
+
+
 " load other scripts {{{
 
-  execute 'source ' . NvimGetDir('core') . g:nvim_path_sep .
-      \ 'autocmds.vim'
-  execute 'source ' . NvimGetDir('core') . g:nvim_path_sep .
-      \ 'commands.vim'
-  execute 'source ' . NvimGetDir('core') . g:nvim_path_sep .
+ "execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
+ "    \ 'autocmds.vim'
+ "execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
+ "    \ 'commands.vim'
+  execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
       \ 'mappings.vim'
-  execute 'source ' . NvimGetDir('core') . g:nvim_path_sep .
-      \ 'utf-8.vim'
+ "execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
+ "    \ 'utf-8.vim'
 
   "}}}
 

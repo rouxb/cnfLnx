@@ -7,7 +7,7 @@ set termencoding=utf-8
 
 " characters for displaying in list mode
 if &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
-  "if g:navim_settings.powerline_fonts == 1
+  "if g:cnf_nvim.powerline_fonts == 1
     set listchars=extends:>,precedes:<,tab:▶\ ,trail:•
   "else
   " set listchars=extends:>,precedes:<,tab:►\ ,trail:•
@@ -22,7 +22,7 @@ set showbreak&
 
 " airline
 "if !empty(glob("vim-airline"))
-if g:navim_settings.powerline_fonts == 1
+if g:cnf_nvim.powerline_fonts == 1
   let g:airline_left_sep = ''
   let g:airline_left_alt_sep = ''
   let g:airline_right_sep = ''
@@ -157,7 +157,7 @@ let g:lightline = {
     "\ 'tabline_separator': { 'left': '', 'right': '' },
     "\ 'tabline_subseparator': { 'left': '', 'right': '' },
 
-if g:navim_settings.powerline_fonts == 1
+if g:cnf_nvim.powerline_fonts == 1
   let g:lightline.separator.left = "\uE0B0"
   let g:lightline.subseparator.left = "\uE0B1"
   let g:lightline.separator.right = "\uE0B2"
@@ -177,7 +177,7 @@ if g:navim_settings.powerline_fonts == 1
 "  let g:lightline.tabline_subseparator.right = '<'
 endif
 
-if g:navim_settings.colorscheme ==# 'solarized'
+if g:cnf_nvim.colorscheme ==# 'solarized'
   let g:lightline.colorscheme = 'lightline_solarized'
 endif
 

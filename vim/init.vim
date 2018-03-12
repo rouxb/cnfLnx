@@ -11,7 +11,13 @@
 	let g:nvim_dir= '~' . g:nvim_path_separator . '.cnfLnx' 
 				\ . g:nvim_path_separator . 'vim' 
 " }}}
-"
+
+" Leader keys {{{
+  let mapleader = ' '
+  let g:mapleader = ' '
+  let maplocaleader = ' '
+" }}}
+
 " Global configuration {{{
   let g:cnf_nvim = {}
 
@@ -55,7 +61,8 @@
 " }}}
 
 " UI Configuration {{{
-  let g:cnf_nvim.colorscheme = 'molokai'
+  let g:cnf_nvim.colorscheme = 'space-vim-dark'
+  "let g:cnf_nvim.colorscheme = 'molokai'
   "let g:cnf_nvim.colorscheme = 'solarized'
   "let g:cnf_nvim.colorscheme = 'jellybeans'
   "let g:cnf_nvim.colorscheme = 'onedark'

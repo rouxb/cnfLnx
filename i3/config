@@ -227,7 +227,7 @@ for_window [title="ncsim"] floating enable
 for_window [title="SimVision Exit"] floating enable
 
 ### Default layout for workspaces
-set $native DP-1
+set $native LVDS-1
 set $dock DP-2
 #Native Screen
 	workspace $tag~ output $native
