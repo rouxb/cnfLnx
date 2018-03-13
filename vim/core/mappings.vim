@@ -68,6 +68,34 @@
 
     " }}}
 
+    " buffer management {{{
+    " functions {{{
+    " }}}
+
+    " mappings {{{
+    let g:lmap.b = { 'name' : '+buffers' }
+    " buffer mvmt
+    let g:lmap.b.p = ['bprevious', 'previous-buffer']
+    let g:lmap.b.n = ['bnext', 'next-buffer']
+    let g:lmap.b.f = ['bfirst', 'first-buffer']
+    let g:lmap.b.l = ['blast', 'last-buffer']
+    let g:lmap.b.1 = ['b1', 'buffer-1']
+    let g:lmap.b.2 = ['b2', 'buffer-2']
+    let g:lmap.b.3 = ['b3', 'buffer-3']
+    let g:lmap.b.4 = ['b4', 'buffer-4']
+    let g:lmap.b.5 = ['b5', 'buffer-5']
+    let g:lmap.b.6 = ['b6', 'buffer-6']
+    let g:lmap.b.7 = ['b7', 'buffer-7']
+    let g:lmap.b.8 = ['b8', 'buffer-8']
+    let g:lmap.b.9 = ['b9', 'buffer-9']
+    " buffer mgmt
+    let g:lmap.b.k = ['bw', 'save&kill-buffer']
+    let g:lmap.b.d = ['bw', 'delete-buffer']
+    let g:lmap.b.b = ['', 'TODO-helm maps']
+    " }}}
+
+    " }}}
+
     " configure Leader guide {{{
     " functions {{{
     function! s:my_displayfunc()
