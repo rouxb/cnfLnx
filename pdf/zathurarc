@@ -1,0 +1,6 @@
+# enable copy-paste
+set selection-clipboard clipboard
+
+# Title and status bar
+set window-title-home-tilde true
+set statusbar-home-tilde true

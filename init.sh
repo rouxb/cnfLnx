@@ -39,3 +39,8 @@ ln -i -s $SCRIPTPATH/$tmux_config $tmux_trgt_path
 urxvt_config=urxvt/Xresources
 urxvt_trgt_path=~/.Xresources
 ln -i -s $SCRIPTPATH/$urxvt_config $urxvt_trgt_path
+
+### Zathura config
+zathura_config=pdf/zathurarc
+zathura_trgt_path=~/.config/zathura/zathurarc
+ln -i -s $SCRIPTPATH/$zathura_config $zathura_trgt_path
