@@ -8,7 +8,14 @@
   let g:lmap = {}
   let g:mlmap = {}
 
-    " windows management {{{
+  " requiered plugins {{{
+    call dein#add('taohex/vim-leader-guide')
+    call dein#add('Shougo/denite.nvim')
+    call dein#add('Shougo/neomru.nvim')
+    call dein#add('scrooloose/nerdtree')
+  " }}}
+
+  " windows management {{{
     " functions {{{
     " }}}
 
@@ -59,11 +66,106 @@
 
     " }}}
 
-    " tabs management {{{
+    " layout management {{{
+    let s:prevTab = 0
+    let s:curTab = 0
+    let s:idxTab = 0
+
     " functions {{{
+    function! mappings#ChTab(direction)
+      let s:prevTab = s:curTab " manage index
+      if s:curTab + a:direction < 0
+          let s:curTab = s:idxTab
+      elseif s:curTab + a:direction > s:idxTab
+          let s:curTab = s:idxTab
+      else 
+        let s:curTab = s:curTab + a:direction
+      endif
+
+      if a:direction == -1 " mv tab
+        :-tabnext
+      else
+        :+tabnext
+      endif
+    endfunction
+
+    function! mappings#Goto_tab(trgtTab)
+      if a:trgtTab > s:idxTab " if no trgt tab, create it
+        call mappings#Tab_new()
+      else
+        let a:trgt = a:trgtTab + 1
+        execute 'tabnext ' . a:trgt
+        " update tab index and history
+        let s:prevTab = s:curTab
+        let s:curTab = a:trgtTab
+      endif
+    endfunction
+
+    function! mappings#Tab_new()
+      "ask for name
+      call inputsave()
+      let tabName = input('New layer name: ')
+      call inputrestore()
+      "create it
+      execute '$tabnew ' . tabName
+      " update tab index and history
+      let s:prevTab = s:curTab
+      let s:idxTab = s:idxTab +1
+      let s:curTab = s:idxTab
+    endfunction
+
+    function! mappings#Tab_close()
+      " close tab and go to previous
+      execute 'tabclose'
+      mappings#Goto_tab(s:prevTab)
+
+      " update tab index and history
+      let s:curTab = s:prevTab
+      let s:idxTab = s:idxTab - 1
+    endfunction
+
+    function! mappings#MvTab(direction)
+      " check border
+      if (( s:curTab + a:direction) < 0
+        ||  ( s:curTab + a:direction) > s:idxTab)
+        " do nothing
+      else
+      " swap prev with cur if needed
+        if s:prevtab = s:curTab + a:direction
+          let a:tmp = s:curTab
+          let s:curTab = s:prevTab
+          let s:prevTab = a:tmp
+        endif
+        if a:direction > 0
+          execute 'tabmove -1'
+        else
+          execute 'tabmove +1'
+        endif
+    endfunction
     " }}}
 
     " mappings {{{
+    let g:lmap.l = { 'name' : '+layouts'}
+    let g:lmap.l.c = ['call mappings#Tab_new()', 'create-tab']
+    let g:lmap.l.d = ['call mappings#Tab_close()', 'delete-tab']
+    let g:lmap.l.n = ['call mappings#ChTab(1)', 'tab-next']
+    let g:lmap.l.p = ['call mappings#ChTab(-1)', 'tab-prev']
+    let g:lmap.l.0 = ['call mappings#Goto_tab(0)', 'gt-tab0']
+    let g:lmap.l.1 = ['call mappings#Goto_tab(1)', 'gt-tab1']
+    let g:lmap.l.2 = ['call mappings#Goto_tab(2)', 'gt-tab2']
+    let g:lmap.l.3 = ['call mappings#Goto_tab(3)', 'gt-tab3']
+    let g:lmap.l.4 = ['call mappings#Goto_tab(4)', 'gt-tab4']
+    let g:lmap.l.5 = ['call mappings#Goto_tab(5)', 'gt-tab5']
+    let g:lmap.l.6 = ['call mappings#Goto_tab(6)', 'gt-tab6']
+    let g:lmap.l.7 = ['call mappings#Goto_tab(7)', 'gt-tab7']
+    let g:lmap.l.8 = ['call mappings#Goto_tab(8)', 'gt-tab8']
+    let g:lmap.l.9 = ['call mappings#Goto_tab(9)', 'gt-tab9']
+    " Use <C-I> to map tab key
+    let g:lmap.l['<C-I>'] = ['call mappings#Goto_tab(' . s:prevTab . ')', 'toggle-tab']
+    " subcat for mvt
+    let g:lmap.l.m = {'name': '+tab-move'}
+    let g:lmap.l.m.p = ['call mappings#MvTab(-1)', 'mv-prev']
+    let g:lmap.l.m.n = ['call mappings#MvTab(1)', 'mv-next']
     " }}}
 
     " }}}
@@ -89,9 +191,23 @@
     let g:lmap.b.8 = ['b8', 'buffer-8']
     let g:lmap.b.9 = ['b9', 'buffer-9']
     " buffer mgmt
-    let g:lmap.b.k = ['bw', 'save&kill-buffer']
     let g:lmap.b.d = ['bw', 'delete-buffer']
-    let g:lmap.b.b = ['', 'TODO-helm maps']
+    " denite buffer search
+    let g:lmap.b.b = ['Denite -auto-resize -buffer-name=buffers buffer file_mru', 'denite-buffer']
+    " }}}
+    " }}}
+
+    " file management {{{
+    " functions {{{
+    " }}}
+
+    " mappings {{{
+    let g:lmap.f = { 'name' : '+files' }
+    let g:lmap.f.f = ['Denite -auto-resize -buffer-name=files file_rec', 'denite-file']
+    let g:lmap.f.m = ['Denite -auto-resize -buffer-name=mixed buffer file_rec file_mru bookmark', 'denite-mixed']
+    let g:lmap.f.r = ['Denite -auto-resize -buffer-name=recent file_mru', 'denite-mru']
+    let g:lmap.f.s = ['DeniteCursorWord -no-quit -auto-resize -buffer-name=search grep:.', 'denite-search']
+    let g:lmap.f.t = ['NERDTreeToggle', 'NerdTree']
     " }}}
 
     " }}}
