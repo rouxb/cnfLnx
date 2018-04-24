@@ -650,6 +650,10 @@
       " smash escape
       inoremap jk <Esc>
       inoremap kj <Esc>
+      " escap and smash escape in terminal emulator
+      tnoremap jk <C-\><C-n>
+      tnoremap kj <C-\><C-n>
+      tnoremap <Esc> <C-\><C-n>
     " }}}
 
   " }}}
@@ -657,14 +661,14 @@
 
 " load other scripts {{{
 
- "execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
- "    \ 'autocmds.vim'
- "execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
- "    \ 'commands.vim'
   execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
-      \ 'mappings.vim'
+     \ 'corelib.vim'
+  execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
+     \ 'mappings.vim'
  "execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
  "    \ 'utf-8.vim'
+  execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
+     \ 'autocmds.vim'
 
   "}}}
 

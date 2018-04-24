@@ -3,6 +3,12 @@
 " navigation in windows, tabs, file mgmt ...
 " Define main navigation and file mgmt shortcuts.
 
+function! Create_tab()
+  call inputsave()
+  let $name = input('Enter name: ')
+  call inputrestore()
+  execute 'tabnew' . " " . $name
+endfunction
 " mappings {{{
   " map container
   let g:lmap = {}
