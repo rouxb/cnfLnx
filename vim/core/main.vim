@@ -1,9 +1,8 @@
 " Init {{{
-
+  " Home neovim dir
   let s:nvim_dir = get(g:cnf_nvim, 'nvim_dir',
       \ fnamemodify(resolve(expand('<sfile>')), ':p:h:h'))
   let s:cache_dir = s:nvim_dir . g:nvim_path_separator . 'cache'
-
 "}}}
 
 " functions {{{
@@ -70,7 +69,6 @@
 "}}}
 
 " init settings {{{
-
   " core
   call s:InsertIfNotExists(g:cnf_nvim, 'default_indent', 2)
   call s:InsertIfNotExists(g:cnf_nvim, 'bin_dir', '')
@@ -321,7 +319,6 @@
 "}}}
 
 " layers configuration {{{
-
   if count(g:cnf_nvim.layers, 'core') "{{{
     call dein#add('taohex/vim-leader-guide')
     if g:cnf_nvim.statusline_plugin ==# 'airline' "{{{
@@ -357,7 +354,6 @@
         "}}}
         call dein#add('vim-airline/vim-airline-themes')
       "endif "}}}
-    "}}}
     elseif g:cnf_nvim.statusline_plugin ==# 'lightline' "{{{
       call dein#add('itchyny/lightline.vim') "{{{
         set showtabline=2  " always show tabline
@@ -513,9 +509,6 @@
       vmap <C-Down> ]egv
     "}}}
   endif "}}}
-
-  call s:SourceLayers(NvimGetDir('layers'))
-
 "}}}
 
 " color schemes {{{
@@ -658,7 +651,6 @@
 
   " }}}
 
-
 " load other scripts {{{
 
   execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
@@ -670,8 +662,10 @@
   execute 'source ' . NvimGetDir('core') . g:nvim_path_separator .
      \ 'autocmds.vim'
 
-  "}}}
+"}}}
 
-
+" load user layers {{{
+  call s:SourceLayers(NvimGetDir('layers'))
+" }}}
 " vim: fdm=marker ts=2 sts=2 sw=2 fdl=0
 
