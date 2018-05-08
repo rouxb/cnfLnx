@@ -14,7 +14,8 @@ augroup coreAutocmd
 		\ |endif
 
 	" enter insert mode whenever we go in a terminal buffer
-	autocmd TermOpen,BufWinEnter,BufEnter term://* startinsert
+  " Disable ATM ugly with current tab navigation
+	" autocmd TermOpen,BufWinEnter,BufEnter term://* startinsert
 
 	" turn numbers on for normal buffers; turn them off for terminal buffers
 	autocmd TermOpen,BufWinEnter * call corelib#SetNumberDisplay()
