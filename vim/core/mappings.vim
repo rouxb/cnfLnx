@@ -3,12 +3,6 @@
 " navigation in windows, tabs, file mgmt ...
 " Define main navigation and file mgmt shortcuts.
 
-function! Create_tab()
-  call inputsave()
-  let $name = input('Enter name: ')
-  call inputrestore()
-  execute 'tabnew' . " " . $name
-endfunction
 " mappings {{{
   " map container
   let g:lmap = {}
@@ -22,7 +16,39 @@ endfunction
   " }}}
 
   " windows management {{{
+    let s:focusStatus = {}
+
     " functions {{{
+    function! mappings#FocusFile()
+      let a:curTab = tabpagenr()
+      if a:curTab ># (tabpagenr('$') - len(s:focusStatus)) " Unfocus
+       for [key, val] in items(s:focusStatus) " parse dict to find origin tab
+         if (a:curTab ==# val)
+           let a:origTab = key
+           :break
+         endif
+       endfor
+       "tab clear dict, jump to origin and remove focused 
+       call remove(s:focusStatus, a:origTab)
+       execute 'tabnext ' . a:origTab
+       execute "tabclose " . a:curTab
+      else
+      " check focus status
+        if has_key(s:focusStatus, tabpagenr()) "should never append
+          echo "Strange behavior, check focusStatus management"
+        endif
+        " Save current tab and trgtFile
+        let a:trgtFile = @%
+        let a:curTab = tabpagenr()
+        "move to last tab create focus and open file
+        execute 'tabnext ' . tabpagenr('$')
+        execute "tabnew focus" . a:curTab
+        execute "edit " . a:trgtFile
+
+        "register focus in focusStatus
+        let s:focusStatus[a:curTab] = tabpagenr()
+      endif
+    endfunction
     " }}}
 
     " mappings {{{
@@ -31,6 +57,13 @@ endfunction
       nnoremap <Plug>(window_l) <C-W>l
       nnoremap <Plug>(window_j) <C-W>j
       nnoremap <Plug>(window_k) <C-W>k
+      nnoremap <Plug>(window_w) <C-W>w
+
+      nnoremap <Plug>(window_H) <C-W>H
+      nnoremap <Plug>(window_L) <C-W>L
+      nnoremap <Plug>(window_J) <C-W>J
+      nnoremap <Plug>(window_K) <C-W>K
+      nnoremap <Plug>(window_R) <C-W>R
 
       nnoremap <Plug>(window_b) <C-W>=
       nnoremap <Plug>(window_rh) <C-W>5>
@@ -38,27 +71,23 @@ endfunction
       nnoremap <Plug>(window_rj) :resize +5<CR>
       nnoremap <Plug>(window_rk) :resize -5<CR>
 
-      nnoremap <Plug>(window_w) <C-W>w
-      nnoremap <Plug>(window_r) <C-W>r
-      nnoremap <Plug>(window_d) <C-W>c
-      nnoremap <Plug>(window_q) <C-W>q
-      nnoremap <Plug>(window_s1) <C-W>s
-      nnoremap <Plug>(window_s2) <C-W>s
-      nnoremap <Plug>(window_v1) <C-W>v
-      nnoremap <Plug>(window_v2) <C-W>v
-      nnoremap <Plug>(window_2) <C-W>v
-
     " leaderGuide map
     let g:lmap.w = { 'name' : '+windows' }
       " split
       let g:lmap.w.s = ['split', 'split-window-above']
       let g:lmap.w.v = ['vsplit', 'split-window-right']
       " move selection
-      let g:lmap.w.h = ['call feedkeys("\<Plug>(window_w)")', 'select-left-window']
+      let g:lmap.w.h = ['call feedkeys("\<Plug>(window_h)")', 'select-left-window']
       let g:lmap.w.l = ['call feedkeys("\<Plug>(window_l)")', 'select-right-window']
       let g:lmap.w.j = ['call feedkeys("\<Plug>(window_j)")', 'select-down-window']
       let g:lmap.w.k = ['call feedkeys("\<Plug>(window_k)")', 'select-up-window']
+      let g:lmap.w.r = ['call feedkeys("\<Plug>(window_w)")', 'select-rotate']
     " move windows
+      let g:lmap.w.H = ['call feedkeys("\<Plug>(window_H)")', 'move-window-left']
+      let g:lmap.w.L = ['call feedkeys("\<Plug>(window_L)")', 'move-window-right']
+      let g:lmap.w.J = ['call feedkeys("\<Plug>(window_J)")', 'move-window-down']
+      let g:lmap.w.K = ['call feedkeys("\<Plug>(window_K)")', 'move-window-up']
+      let g:lmap.w.R = ['call feedkeys("\<Plug>(window_R)")', 'move-rotate']
     " resize windows
     let g:lmap.w['='] = ['call feedkeys("\<Plug>(window_b)")', 'balance-window']
     let g:lmap.w.r = { 
@@ -68,106 +97,125 @@ endfunction
         \ 'l' : ['call feedkeys("\<Plug>(window_rl)")', 'expand-right'],
         \ 'j' : ['call feedkeys("\<Plug>(window_rj)")', 'expand-below'],
         \ 'k' : ['call feedkeys("\<Plug>(window_rk)")', 'expand-above']}
+    " focus on current file
+      let g:lmap.w.m = ['call mappings#FocusFile()', 'focus-file']
     " }}}
 
     " }}}
 
     " layout management {{{
-    let s:prevTab = 0
-    let s:curTab = 0
-    let s:idxTab = 0
+    let s:prevTab = 1
 
     " functions {{{
-    function! mappings#ChTab(direction)
-      let s:prevTab = s:curTab " manage index
-      if s:curTab + a:direction < 0
-          let s:curTab = s:idxTab
-      elseif s:curTab + a:direction > s:idxTab
-          let s:curTab = s:idxTab
-      else 
-        let s:curTab = s:curTab + a:direction
+   function! mappings#ChTab(trgtTab)
+     " Move tab cyclic with history
+     let a:ppTab = s:prevTab
+     let s:prevTab = tabpagenr()
+
+    " check init focus status, parse dict to find origin tab in case of focus
+    let a:curTab = tabpagenr()
+    if has_key(s:focusStatus, a:curTab)
+      let a:curTab = s:focusStatus[a:curTab]
+    else
+       for [key, val] in items(s:focusStatus)
+         if (a:curTab ==# val)
+           let a:curTab = key
+           :break
+         endif
+      endfor
+    endif
+
+     echo "trgtTab: " . a:trgtTab
+     echo "curTab: " . a:curTab
+
+     " find nextTab
+     let a:nextTab = a:curTab
+     if a:trgtTab ==# "+"
+       let a:nextTab = (a:curTab + 1)
+       let a:nextTab = ((a:nextTab ==# ((tabpagenr('$')+1) - len(s:focusStatus)))? 1: a:nextTab)
+     elseif a:trgtTab ==# "-"
+       let a:nextTab = (a:curTab - 1)
+       let a:nextTab = ((a:nextTab ==# 0)? (tabpagenr('$') - len(s:focusStatus)): a:nextTab)
+     elseif a:trgtTab ==# "t" "Toggle tab
+       let a:nextTab = a:ppTab
+     else 
+       let a:nextTab = a:trgtTab
+     endif
+
+     echo "nextTab: " . a:nextTab
+    " check trgt focus status
+    if has_key(s:focusStatus, a:nextTab)
+      let a:nextTab = s:focusStatus[a:nextTab]
+      execute 'tabnext ' . a:nextTab
+    elseif a:nextTab ># (tabpagenr('$') - len(s:focusStatus))
+       call mappings#Tab_new(a:curTab)
+     else
+       execute 'tabnext ' . a:nextTab
+     endif
+   endfunction
+
+   function! mappings#Tab_new(fromTab)
+     " Create new tab with history
+     let s:prevTab = a:fromTab
+     "ask for name
+     call inputsave()
+     let a:tabName = input('New layer name: ')
+     call inputrestore()
+     "create it before focused tab
+     if (len(s:focusStatus) ># 0) "slide all focus pan to the right
+       for [key, val] in items(s:focusStatus)
+         let s:focusStatus[key] = (val + 1)
+       endfor
+     endif
+     " move before targeted position and create tab
+     execute 'tabnext ' . (tabpagenr('$') - len(s:focusStatus))
+     execute '$tabnew ' . a:tabName
+   endfunction
+
+   function! mappings#Tab_close()
+     " close tab and go to previous
+     " rearrange focused tab index
+     let a:tabToClose = tabpagenr()
+     let a:newFocus = {}
+     for [key, val] in items(s:focusStatus)
+       if (key ># a:tabToClose) " Change base tab and trgt
+         let a:newFocus[key-1] = (val -1)
+         call remove(a:tabToClose, key)
+       else
+        let s:focusStatus[key] = (val ># a:tabToClose)?(val-1):val "change trgt focus
       endif
+      " Append newFocus to focusStatus
+      call extend(s:focusStatus, a:newFocus)
+     endfor
 
-      if a:direction == -1 " mv tab
-        :-tabnext
-      else
-        :+tabnext
-      endif
-    endfunction
-
-    function! mappings#Goto_tab(trgtTab)
-      if a:trgtTab > s:idxTab " if no trgt tab, create it
-        call mappings#Tab_new()
-      else
-        let a:trgt = a:trgtTab + 1
-        execute 'tabnext ' . a:trgt
-        " update tab index and history
-        let s:prevTab = s:curTab
-        let s:curTab = a:trgtTab
-      endif
-    endfunction
-
-    function! mappings#Tab_new()
-      "ask for name
-      call inputsave()
-      let tabName = input('New layer name: ')
-      call inputrestore()
-      "create it
-      execute '$tabnew ' . tabName
-      " update tab index and history
-      let s:prevTab = s:curTab
-      let s:idxTab = s:idxTab +1
-      let s:curTab = s:idxTab
-    endfunction
-
-    function! mappings#Tab_close()
-      " close tab and go to previous
-      execute 'tabclose'
-      mappings#Goto_tab(s:prevTab)
-
-      " update tab index and history
-      let s:curTab = s:prevTab
-      let s:idxTab = s:idxTab - 1
-    endfunction
+     echo "target tab is " . s:prevTab
+     call mappings#ChTab(s:prevTab)
+     execute 'tabclose' . a:tabToClose
+   endfunction
 
     function! mappings#MvTab(direction)
-      " check border
-      if (( s:curTab + a:direction) < 0
-        ||  ( s:curTab + a:direction) > s:idxTab)
-        " do nothing
-      else
-      " swap prev with cur if needed
-        if s:prevtab = s:curTab + a:direction
-          let a:tmp = s:curTab
-          let s:curTab = s:prevTab
-          let s:prevTab = a:tmp
-        endif
-        if a:direction > 0
-          execute 'tabmove -1'
-        else
-          execute 'tabmove +1'
-        endif
+      " TODO
     endfunction
     " }}}
 
     " mappings {{{
     let g:lmap.l = { 'name' : '+layouts'}
-    let g:lmap.l.c = ['call mappings#Tab_new()', 'create-tab']
+    let g:lmap.l.c = ['call mappings#Tab_new('. tabpagenr(). ')', 'create-tab']
     let g:lmap.l.d = ['call mappings#Tab_close()', 'delete-tab']
-    let g:lmap.l.n = ['call mappings#ChTab(1)', 'tab-next']
-    let g:lmap.l.p = ['call mappings#ChTab(-1)', 'tab-prev']
-    let g:lmap.l.0 = ['call mappings#Goto_tab(0)', 'gt-tab0']
-    let g:lmap.l.1 = ['call mappings#Goto_tab(1)', 'gt-tab1']
-    let g:lmap.l.2 = ['call mappings#Goto_tab(2)', 'gt-tab2']
-    let g:lmap.l.3 = ['call mappings#Goto_tab(3)', 'gt-tab3']
-    let g:lmap.l.4 = ['call mappings#Goto_tab(4)', 'gt-tab4']
-    let g:lmap.l.5 = ['call mappings#Goto_tab(5)', 'gt-tab5']
-    let g:lmap.l.6 = ['call mappings#Goto_tab(6)', 'gt-tab6']
-    let g:lmap.l.7 = ['call mappings#Goto_tab(7)', 'gt-tab7']
-    let g:lmap.l.8 = ['call mappings#Goto_tab(8)', 'gt-tab8']
-    let g:lmap.l.9 = ['call mappings#Goto_tab(9)', 'gt-tab9']
+    let g:lmap.l.n = ['call mappings#ChTab("+")', 'tab-next']
+    let g:lmap.l.p = ['call mappings#ChTab("-")', 'tab-prev']
+    let g:lmap.l.1 = ['call mappings#ChTab(1)', 'gt-tab1']
+    let g:lmap.l.2 = ['call mappings#ChTab(2)', 'gt-tab2']
+    let g:lmap.l.3 = ['call mappings#ChTab(3)', 'gt-tab3']
+    let g:lmap.l.4 = ['call mappings#ChTab(4)', 'gt-tab4']
+    let g:lmap.l.5 = ['call mappings#ChTab(5)', 'gt-tab5']
+    let g:lmap.l.6 = ['call mappings#ChTab(6)', 'gt-tab6']
+    let g:lmap.l.7 = ['call mappings#ChTab(7)', 'gt-tab7']
+    let g:lmap.l.8 = ['call mappings#ChTab(8)', 'gt-tab8']
+    let g:lmap.l.9 = ['call mappings#ChTab(9)', 'gt-tab9']
+    let g:lmap.l.0 = ['call mappings#ChTab(0)', 'gt-tab10']
     " Use <C-I> to map tab key
-    let g:lmap.l['<C-I>'] = ['call mappings#Goto_tab(' . s:prevTab . ')', 'toggle-tab']
+    let g:lmap.l['<C-I>'] = ['call mappings#ChTab("t")', 'toggle-tab']
     " subcat for mvt
     let g:lmap.l.m = {'name': '+tab-move'}
     let g:lmap.l.m.p = ['call mappings#MvTab(-1)', 'mv-prev']
@@ -253,6 +301,14 @@ endfunction
 
     " }}}
 
+    " }}}
+    " Display scripts vars for debug purpose {{{
+    function! mappings#DebugDisplay()
+      echo "focusStatus: "
+      echo s:focusStatus
+      echo "len(focusStatus): " . len(s:focusStatus)
+      echo "prevTab: " . s:prevTab
+    endfunction
     " }}}
     " }}}
 
