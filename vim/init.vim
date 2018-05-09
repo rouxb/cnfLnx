@@ -75,25 +75,23 @@
 
 " Custom hook before startup {{{
 function! BeforeAll_hook()
-
+  "define global variable for storing layerName
+   let g:fixTabNameForLayer = {1: "Sandbox"}
 endfunction
 "}}}
 
 " Custom hook after startup {{{
-function! AfterAll()
-
+function! AfterAll_hook()
   " use spaces instead of tabs
   set expandtab
   "set noexpandtab
-	
 endfunction
 
-""" Call core configuration. DO NOT EDIT """"""""""""""""""""""""""""""""""""""
+" DO NOT EDIT """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" Call core configuration {{{
 
 " PreConfig Hook {{{
-if exists('*BeforeAll_hook')
-    call BeforeAll_hook()
-  endif
+  call BeforeAll_hook()
 "}}}
 
 " Core {{{
@@ -102,9 +100,8 @@ if exists('*BeforeAll_hook')
 "}}}
 
 " endConfig Hook {{{
-if exists('*AfterAll_hook')
-    call AfterAll_hook()
-  endif
+  call AfterAll_hook()
+"}}}
 "}}}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 

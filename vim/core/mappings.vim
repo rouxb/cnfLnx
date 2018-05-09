@@ -21,7 +21,7 @@
     " functions {{{
     function! mappings#FocusFile()
       let a:curTab = tabpagenr()
-      if a:curTab ># (tabpagenr('$') - len(s:focusStatus)) " Unfocus
+      if a:curTab ># (tabpagenr('$') - len(s:focusStatus)) " focused tab
        for [key, val] in items(s:focusStatus) " parse dict to find origin tab
          if (a:curTab ==# val)
            let a:origTab = key
@@ -40,13 +40,14 @@
         " Save current tab and trgtFile
         let a:trgtFile = @%
         let a:curTab = tabpagenr()
-        "move to last tab create focus and open file
-        execute 'tabnext ' . tabpagenr('$')
-        execute "tabnew focus" . a:curTab
-        execute "edit " . a:trgtFile
 
-        "register focus in focusStatus
-        let s:focusStatus[a:curTab] = tabpagenr()
+        " register focused tabname and focusStatus
+        let g:fixTabNameForLayer[tabpagenr('$')+1] = 'Focus_' . a:curTab
+        let s:focusStatus[a:curTab] = (tabpagenr()+1)
+
+        "move to last tab create focus tab on file
+        execute 'tabnext ' . tabpagenr('$')
+        execute "tabedit" . a:trgtFile
       endif
     endfunction
     " }}}
@@ -125,9 +126,6 @@
       endfor
     endif
 
-     echo "trgtTab: " . a:trgtTab
-     echo "curTab: " . a:curTab
-
      " find nextTab
      let a:nextTab = a:curTab
      if a:trgtTab ==# "+"
@@ -142,7 +140,6 @@
        let a:nextTab = a:trgtTab
      endif
 
-     echo "nextTab: " . a:nextTab
     " check trgt focus status
     if has_key(s:focusStatus, a:nextTab)
       let a:nextTab = s:focusStatus[a:nextTab]
@@ -167,15 +164,21 @@
          let s:focusStatus[key] = (val + 1)
        endfor
      endif
-     " move before targeted position and create tab
+     " move before targeted position and create tab focused on new term
      execute 'tabnext ' . (tabpagenr('$') - len(s:focusStatus))
-     execute '$tabnew ' . a:tabName
+     let g:fixTabNameForLayer[(tabpagenr('$') - len(s:focusStatus))+1] = a:tabName
+     execute '$tabnew |terminal'
+     execute 'file term://'. a:tabName
+     execute 'stopinsert'
    endfunction
 
    function! mappings#Tab_close()
      " close tab and go to previous
      " rearrange focused tab index
      let a:tabToClose = tabpagenr()
+     " clear fixed name dict
+     remove(g:fixTabNameForLayer, tabpagenr())
+
      let a:newFocus = {}
      for [key, val] in items(s:focusStatus)
        if (key ># a:tabToClose) " Change base tab and trgt
@@ -188,7 +191,6 @@
       call extend(s:focusStatus, a:newFocus)
      endfor
 
-     echo "target tab is " . s:prevTab
      call mappings#ChTab(s:prevTab)
      execute 'tabclose' . a:tabToClose
    endfunction
@@ -308,6 +310,8 @@
       echo s:focusStatus
       echo "len(focusStatus): " . len(s:focusStatus)
       echo "prevTab: " . s:prevTab
+      echo "fixTabName: "
+      echo g:fixTabNameForLayer
     endfunction
     " }}}
     " }}}

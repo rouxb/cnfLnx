@@ -339,11 +339,18 @@
               \ 'S'  : 'S',
               \ '^S' : 'S',
               \ }
+          "Buffer line
           let g:airline#extensions#bufferline#enabled = 0
           let g:airline#extensions#bufferline#overwrite_variables = 1
+          "Tabline
           let g:airline#extensions#tabline#enabled = 1
-          let g:airline#extensions#tabline#buffers_label = 'b'
+          let g:airline#extensions#tabline#formatter = 'customTabName'
+          let g:airline#extensions#tabline#show_tab_nr = 1
+          let g:airline#extensions#tabline#tabnr_formatter = 'customTabnr'
+          let g:airline#extensions#tabline#tab_nr_type = 2
+          let g:airline#extensions#tabline#show_tab_type = 1
           let g:airline#extensions#tabline#tabs_label = 't'
+          let g:airline#extensions#tabline#buffers_label = 'b'
           let g:airline#extensions#tabline#buffer_nr_show = 1
           let g:airline#extensions#tabline#buffer_nr_format = '%s '
           let g:airline#extensions#tabline#fnamecollapse = 1
