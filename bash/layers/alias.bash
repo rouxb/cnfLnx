@@ -1,24 +1,91 @@
 #!/usr/bin/env bash
 
 ### Easier navigation: .., ..., ...., ....., ~ and -
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
-alias -- -="cd -"
+alias ..="\cd .."
+alias ...="\cd ../.."
+alias ....="\cd ../../.."
+alias .....="\cd ../../../.."
+
 
 ### Shortcuts
-alias d="cd ~/Documents/Dropbox"
-alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
-alias p="cd ~/projects"
-alias g="git"
+### git shortcuts
+alias gits="git status"
+alias gitd="git diff"
+alias gitl="git log"
+alias gitld="git log -p -n1"
+alias gitc="git commit"
+alias gita="git add"
+
+### cd history alias
+alias scd="pushd `pwd` &> /dev/null; popd &> /dev/null"
+alias pcd="popd"
+dcd(){
+  echo "Dir stack contains: "
+  for index in ${!DIRSTACK[*]}
+  do
+    printf "%4d: %s\n" $index ${DIRSTACK[$index]}
+  done
+}
 
 ### Nvim shortcuts
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
+
+### Alias for emacs
+alias ec='emacs -nw'
+alias ecw='emacs'
+
+### Keyboard Layout toggle
+dvp(){
+    setxkbmap -layout us -variant dvp
+    xmodmap -e "keycode 94 = eacute egrave"
+}
+alias azerty='setxkbmap -layout fr'
+alias querty='setxkbmap -layout us'
+
+### open in background
+open() {
+  nohup gvfs-open $@ &>/dev/null
+}
+alias o='open'
+
+backLaunch() {
+  nohup $@ &>/dev/null
+}
+alias bl='backLaunch'
+
+### Zoom in urxvt 
+zoom() {
+    printf '\33]50;%s\007' "xft:DejaVuSansMonoForPowerLine:size=$1"
+}
+
+URXVT_SIZE=10
+URXVT_PROGRESS_SIZE=2
+zp() {
+    URXVT_SIZE=$(echo "$URXVT_SIZE+$URXVT_PROGRESS_SIZE" | bc )
+    zoom $URXVT_SIZE
+}
+
+zm() {
+    URXVT_SIZE=$(echo "$URXVT_SIZE-$URXVT_PROGRESS_SIZE" | bc )
+    zoom $URXVT_SIZE
+}
+
+###
+# Alias for fast machine jumping
+##############################
+jt(){
+    if ! [[ 1 -eq $# ]]; then
+        echo "You should provide only one argument for target machine name"
+    else
+        machine=$1
+        myname=`whoami`
+        trgtPath=`pwd`
+        echo "Jump to $machine in bash mode as $myname:$trgtPath"
+        ssh -CYt $myname@$machine "export PATH=$PATH; cd $trgtPath; bash"
+    fi
+}
 
 ### Colored ls
 if ls --color > /dev/null 2>&1; then # GNU `ls`

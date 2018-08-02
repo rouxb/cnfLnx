@@ -19,3 +19,9 @@ export ALIAS=$HOME/.cnfLnx/bash/layers/alias.bash
 if [[ -f $ALIAS ]]; then
     source $ALIAS
 fi
+
+### Load custom paths
+export CPATH=$HOME/.cnfLnx/bash/layers/path.bash
+if [[ -f $CPATH ]]; then
+    source $CPATH
+fi

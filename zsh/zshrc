@@ -61,6 +61,7 @@ plugins=(git vi-mode)
 
 #export PATH=/opt/anaconda/bin:/opt/gecos:/usr/local/bin:$PATH
 export PATH=/nfs/work/tools/scripts:/usr/local/bin:$PATH
+export PATH=$HOME/tools:$PATH
 export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
