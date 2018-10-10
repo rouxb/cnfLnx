@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ### Load agnoster theme
-export THEME=$HOME/.cnfLnx/bash/layers/agnoster-theme.bash
+THEME=$HOME/.cnfLnx/bash/layers/agnoster-theme.bash
 if [[ -f $THEME ]]; then
     export DEFAULT_USER=`whoami`
     source $THEME
@@ -9,19 +9,19 @@ fi
 
 ### Load core features
 # [completion; backward search]
-export CORE=$HOME/.cnfLnx/bash/layers/core.bash
+CORE=$HOME/.cnfLnx/bash/layers/core.bash
 if [[ -f $CORE ]]; then
     source $CORE
 fi
 
 ### Load custom aliases
-export ALIAS=$HOME/.cnfLnx/bash/layers/alias.bash
+ALIAS=$HOME/.cnfLnx/bash/layers/alias.bash
 if [[ -f $ALIAS ]]; then
     source $ALIAS
 fi
 
 ### Load custom paths
-export CPATH=$HOME/.cnfLnx/bash/layers/path.bash
-if [[ -f $CPATH ]]; then
-    source $CPATH
+CUSTOM_PATH=$HOME/.cnfLnx/bash/layers/path.bash
+if [[ -f $CUSTOM_PATH ]]; then
+    source $CUSTOM_PATH
 fi

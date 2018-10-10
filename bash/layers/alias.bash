@@ -40,6 +40,8 @@ alias ecw='emacs'
 dvp(){
     setxkbmap -layout us -variant dvp
     xmodmap -e "keycode 94 = eacute egrave"
+    xmodmap -e "clear lock"
+    xmodmap -e "keycode 66 = Super_L agrave"
 }
 alias azerty='setxkbmap -layout fr'
 alias querty='setxkbmap -layout us'
@@ -83,7 +85,7 @@ jt(){
         myname=`whoami`
         trgtPath=`pwd`
         echo "Jump to $machine in bash mode as $myname:$trgtPath"
-        ssh -CYt $myname@$machine "export PATH=$PATH; cd $trgtPath; bash"
+        ssh -CYt $myname@$machine "cd $trgtPath; bash"
     fi
 }
 
@@ -118,6 +120,12 @@ alias path='echo -e ${PATH//:/\\n}'
 
 ### Get week number
 alias week='date +%V'
+
+### Taskwarrior alias
+export rif="project:Rifyle_dig"
+
+### Get per user process
+alias wuser='ps hax -o user | sort | uniq -c'
 
 # IP addresses
 #alias localip="ipconfig getifaddr en0"
