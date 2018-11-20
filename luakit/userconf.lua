@@ -27,12 +27,18 @@ local downloads = require "downloads"
 downloads.default_dir = os.getenv("HOME")  .. "/Downloads"
 
 -- Follow link with letter {{{
-local select = require "select"
-
-select.label_maker = function ()
-    local chars = charset("aoeuidhtnspyfgcrl")
-    return trim(sort(reverse(chars)))
-end
+-- local select = require "select"
+-- 
+-- select.label_maker = function ()
+-- --     local chars = charset("aoeuidhtnspyfgcrl")
+--     local chars = interleave("aoeui;,.p", "dtns-gcrl")
+--     return trim(sort(reverse(chars)))
+-- end
+-- -- Match only hint label text
+-- local followr = require "follow"
+-- follow.pattern_maker = follow.pattern_styles.match_label
+-- -- Uncomment if you want to ignore case when matching
+-- follow.ignore_case = true
 -- }}}
 
 -- View pdf in external editor

@@ -1,27 +1,47 @@
 #!/usr/bin/env bash
 
-### Load agnoster theme
-export THEME=$HOME/.cnfLnx/bash/layers/agnoster-theme.bash
+### Load bash theme {{{
+THEME=$HOME/.cnfLnx/bash/theme.bash
 if [[ -f $THEME ]]; then
     export DEFAULT_USER=`whoami`
     source $THEME
 fi
+### }}}
 
-### Load core features
-# [completion; backward search]
-export CORE=$HOME/.cnfLnx/bash/layers/core.bash
-if [[ -f $CORE ]]; then
-    source $CORE
-fi
+### Core features {{{
+# Set vi editing style
+set -o vi
+bind '' # smach escape
 
-### Load custom aliases
-export ALIAS=$HOME/.cnfLnx/bash/layers/alias.bash
+# Cycle auto-complete
+bind "TAB:menu-complete"
+bind "TAB:menu-complete-backward"
+bind "set menu-complete-display-prefix on"
+bind "set show-all-if-ambiguous on"
+
+# Backward search in history
+bind "\C-r: history-search-backward" # Ctrl-R remap
+bind "^[[5~: history-search-backward" # PGUP & PGDWN remap
+bind "^[[6~: history-search-forward"
+
+# Unlimited history
+HISTSIZE=
+HISTFILESIZE=
+
+### }}}
+
+### Load custom aliases {{{
+ALIAS=$HOME/.cnfLnx/bash/alias.bash
 if [[ -f $ALIAS ]]; then
     source $ALIAS
 fi
+### }}}
 
-### Load custom paths
-export CPATH=$HOME/.cnfLnx/bash/layers/path.bash
-if [[ -f $CPATH ]]; then
-    source $CPATH
-fi
+### Setup custom paths {{{
+#Extra tools build by hand and share over nfs
+export PATH=$PATH:~/tools
+export PATH=$PATH:~/tools/bin
+export PYTHONPATH="$PYTHONPATH:$HOME/tools/py_bin/lib/python3.6/site-packages"
+### }}}
+
+# vim: fdm=marker ts=2 sts=2 sw=2 fdl=0
