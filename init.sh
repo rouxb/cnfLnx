@@ -15,10 +15,10 @@ zsh_trgt_path=~/.zshrc
 ln -i -s $SCRIPTPATH/$zsh_config $zsh_trgt_path
 
 ### Vim config
-./cnfVim/cnfLoad
+./cnfVim/cnfLoad.sh
 
 ### Awesome config
-./cnfAwesome/cnfLoad
+./cnfAwesome/cnfLoad.sh
 
 ### I3 config
 i3_config=i3
