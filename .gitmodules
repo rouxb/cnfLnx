@@ -1,9 +1,8 @@
-[submodule "vim/base/dein.vim"]
-	path = vim/base/dein.vim
-	url = https://github.com/Shougo/dein.vim.git
 [submodule "cnfAwesome"]
 	path = cnfAwesome
 	url = https://github.com/rouxb/cnfAwesome
-[submodule "cnfVim"]
-	path = cnfVim
-	url = https://github.com/rouxb/cnfVim
+	branch = master
+[submodule "cnfNvimux"]
+	path = cnfNvimux
+	url = https://github.com/rouxb/cnfNvimux
+	branch = master
