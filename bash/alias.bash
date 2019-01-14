@@ -127,6 +127,11 @@ export rif="project:Rifyle_dig"
 ### Get per user process
 alias wuser='ps hax -o user | sort | uniq -c'
 
+### Vnc sessions management
+alias vncs='vncserver -geometry 1920x1080'
+alias vncl='vncserver -list'
+alias vnck='vncserver -kill'
+
 # IP addresses
 #alias localip="ipconfig getifaddr en0"
 #alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
