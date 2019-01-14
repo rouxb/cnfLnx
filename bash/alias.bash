@@ -81,11 +81,7 @@ jt(){
     if ! [[ 1 -eq $# ]]; then
         echo "You should provide only one argument for target machine name"
     else
-        machine=$1
-        myname=`whoami`
-        trgtPath=`pwd`
-        echo "Jump to $machine in bash mode as $myname:$trgtPath"
-        ssh -CYt $myname@$machine "cd $trgtPath; bash"
+        ssh -Yt $myname@$machine
     fi
 }
 
