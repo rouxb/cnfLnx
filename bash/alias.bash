@@ -124,7 +124,7 @@ export rif="project:Rifyle_dig"
 alias wuser='ps hax -o user | sort | uniq -c'
 
 ### Vnc sessions management
-alias vncs='vncserver -geometry 1920x1080'
+alias vncs='vncserver -geometry 1920x1000'
 alias vncl='vncserver -list'
 alias vnck='vncserver -kill'
 
