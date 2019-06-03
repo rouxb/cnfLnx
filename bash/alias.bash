@@ -81,7 +81,9 @@ jt(){
     if ! [[ 1 -eq $# ]]; then
         echo "You should provide only one argument for target machine name"
     else
-        ssh -Yt $myname@$machine
+        myname=`whoami`
+        machine=$1
+        ssh -CY $myname@$machine
     fi
 }
 
