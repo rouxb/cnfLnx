@@ -44,6 +44,13 @@ export PATH=$PATH:~/tools/bin
 export PYTHONPATH="$PYTHONPATH:$HOME/tools/py_bin/lib/python3.6/site-packages"
 ### }}}
 
+# Source machine related setup if available {{{
+HOST_CNF=$HOME/.cnfLnx/bash/host/`hostname`.bash
+if [[ -f $HOST_CNF ]]; then
+  source $HOST_CNF
+fi
+# }}}
+
 # Exported term for compat
 export TERM=screen-256color
 
