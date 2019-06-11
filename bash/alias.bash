@@ -83,7 +83,8 @@ jt(){
     else
         myname=`whoami`
         machine=$1
-        ssh -CY $myname@$machine
+        ssh -CYt $myname@$machine "/bin/bash"
+
     fi
 }
 
